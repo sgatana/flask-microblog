@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-     {% block title %}
-    <title>
-
-    </title>
-     {% endblock %}
+    {% block title %}
+        {% if title %}
+        <title> {{ title }}</title>
+        {% else %}
+        <title>Microblog</title>
+        {% endif %}
+    {% endblock %}
     <!--<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/bootstrap.css')}}" />-->
     <!--<link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css" />-->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
@@ -25,13 +27,22 @@
                         <span class="icon-bar"></span>
 
                     </button>
-                    <a class="navbar-brand" href="#">Microblog</a>
+                    <a class="navbar-brand" href="{{url_for('auth.index')}}">Microblog</a>
                 </div>
                 <div class=" navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="{{url_for('auth.index')}}">Home</a></li>
                     </ul>
 
+                    <ul class="nav navbar-nav pull-right">
+                        {% if current_user.is_authenticated %}
+                        <li><a href="#" class="glyphicon glyphicon-user" >{{current_user.username}}</a></li>
+                        <li><a href="{{url_for('auth.logout')}}" class="glyphicon glyphicon-log-out">Logout</a></li>
+                        {% else %}
+                        <li><a href="{{url_for('auth.login')}}" class="glyphicon glyphicon-log-in">Login</a></li>
+                        <li><a href="{{ url_for('auth.register')}}" class="glyphicon glyphicon-log-in">Register</a></li>
+                        {% endif %}
+                    </ul>
                 </div>
             </div>
         </div>
@@ -42,13 +53,23 @@
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
             {% for category, message in messages%}
-            <p class="{{category}}">{{ message }}</p>
+            <div class="alert alert-{{category}} alert-dismissible text-center col-sm-6" role="alert">
+                <button class="close" data-dismiss="alert" type="button" >&times;</button>
+                {{ message }}
+            </div>
+            <br />
             {% endfor %}
             {% endif %}
             {% endwith %}
             {% block page_content %}{% endblock %}
         </div>
     {% endblock %}
-
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
 </body>
 </html>

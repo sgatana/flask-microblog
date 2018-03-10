@@ -7,18 +7,18 @@ class Config(object):
 
 
 class DevelopmentConfig(Config):
-    SQLALCHMEY_DATABASE_URI = os.getenv('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
     DEBUG = True
 
 
 class TestingConfig(Config):
-    SQLALCHMEY_DATABASE_URI = os.getenv('TEST_DB_URL')
+    SQLALCHEMY_DATABASE_URI = os.getenv('TEST_DB_URL')
     DEBUG = True
     TESTING = True
 
 
 class ProductionConfig(Config):
-    SQLALCHMEY_DATABASE_URI = os.getenv('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
     DEBUG = False
 
 
