@@ -44,17 +44,20 @@
 </div>
 <div class="row">
      {% if posts %}
-        <div class="media">
-            {% for post in posts%}
+
+        {% for post in posts%}
+            <div class="media">
                 <div class="media-body">
                     <h5 class="media-heading text-primary">{{post.title}}
-                        <span class="pull-right">{{ post.timestamp}}</span>
+                        <span class="pull-right">{{ moment(post.timestamp).fromNow()}}</span>
                     </h5>
                     {{post.body}}
+                    <span class="pull-right">{{post.get_user()}}</span>
                 </div>
-            {% endfor %}
-        </div>
-        {% else %}
+            </div>
+        {% endfor %}
+
+    {% else %}
         <div class="row">
             <p class="text-danger">
                 No posts at the moment

@@ -10,10 +10,9 @@ from .forms import LoginForm, RegisterForm, AddPost
 @auth.route('/', methods=['POST', 'GET'])
 @login_required
 def index():
-    users = User.query.all()
-    if not users:
-        return 'No user found'
-    posts = Post.query.filter_by(user_id=current_user.id)
+    users = User.query.filter_by(id=current_user.id)
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
+
     form = AddPost()
     if form.validate_on_submit():
         post = Post(title=form.title.data, body=form.body.data, user_id=current_user.id)
@@ -21,7 +20,7 @@ def index():
         db.session.commit()
         flash('post added', 'success')
         return redirect(url_for('auth.index'))
-    print(form.errors)
+
     return render_template('index.html', form=form, users=users, posts=posts)
 
 
@@ -38,7 +37,6 @@ def register():
         db.session.commit()
         flash('Congratulations, You have been successfully registered')
         return redirect(url_for('auth.login'))
-    print(form.errors)
     return render_template('register.html', form=form, title='Sign Up')
 
 
