@@ -14,8 +14,6 @@ set the environment to run the application
 
 ```
 export FLASK_CONFIG=development
-
 export SECRET_KEY='this-is-very-secret'
-
 export DB_URL='postgresql://postgres@username:password/-databasenname-'
 ```
